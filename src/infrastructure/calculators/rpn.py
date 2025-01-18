@@ -3,8 +3,8 @@
 # ----------------------------------------------------------------------------------
 import logging
 
+from decimal import Decimal, InvalidOperation
 from dataclasses import dataclass
-from decimal import Decimal
 
 from infrastructure.calculators.base import CalculatorBase
 
@@ -26,8 +26,8 @@ class CalculatorRPN(CalculatorBase):
         stack = []
 
         for i in items:
-            if i.isdigit():
-                stack.append(Decimal(i))
+            if (number := self._check_if_number(i)) is not None:
+                stack.append(number)
                 continue
 
             if i in self.OPERANDS:
@@ -43,6 +43,12 @@ class CalculatorRPN(CalculatorBase):
             raise ValueError("Invalid expression")
 
         return stack.pop()
+
+    def _check_if_number(self, value: str) -> Decimal | None:
+        try:
+            return Decimal(value)
+        except InvalidOperation:
+            return None
 
     async def check_health(self) -> bool:
         return True
