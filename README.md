@@ -39,13 +39,25 @@ pre-commit install
 
 ## Usage
 
-### Running with Docker
+### Running with Docker and MongoDB as database
 
 Build and run [in detached mode] the application using Docker:
 
 ```bash
+[export APP_DB=mongo]
 just up [-d]
 ```
+
+### Running with Docker and PostgreSQL as database
+
+Build and run [in detached mode] the application using Docker:
+
+```bash
+export APP_DB=postgres
+just up [-d]
+```
+
+###
 
 ### Shutting down with Docker
 
