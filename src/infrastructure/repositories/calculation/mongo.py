@@ -19,15 +19,17 @@ class CalculationRepositoryMongo(
         """-------------------------------------------------------------------------
         Save a calculator.
         -------------------------------------------------------------------------"""
-        await self.collection.insert_one(self.to_document(calculator))
+        document = self.to_document(calculator)
+
+        await self.collection.insert_one(document)
 
     async def get_many(self) -> list[CalculationEntity]:
         """-------------------------------------------------------------------------
         Get all calculators.
         -------------------------------------------------------------------------"""
-        return [
-            self.to_domain(document) async for document in self.collection.find()
-        ]
+        items = await self.collection.find().to_list(length=None)
+
+        return [self.to_domain(document) for document in items]
 
     def to_domain(self, document: dict) -> CalculationEntity:
         return CalculationEntity.from_dict(document)
