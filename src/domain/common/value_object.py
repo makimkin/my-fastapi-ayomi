@@ -9,6 +9,8 @@ from uuid import UUID, uuid4
 
 from domain.common.exceptions import EntityIdIncorrectValueException
 
+from lib.dt import convert_datetime_to_ms, convert_ms_to_datetime
+
 
 # endregion-------------------------------------------------------------------------
 # region BASE
@@ -53,18 +55,21 @@ class EntityId(ValueObjectBase[str]):
 # region CREATED AT
 # ----------------------------------------------------------------------------------
 @dataclass(frozen=True)
-class EntityCreatedAt(ValueObjectBase[datetime.datetime]):
+class EntityCreatedAt(ValueObjectBase[int]):
     def validate(self):
         pass
 
     @classmethod
     def create(cls) -> "EntityCreatedAt":
         return EntityCreatedAt(
-            _value=datetime.datetime.now(tz=datetime.timezone.utc)
+            _value=convert_datetime_to_ms(datetime.datetime.now())
         )
 
-    def as_raw(self) -> datetime.datetime:
+    def as_raw(self) -> int:
         return self._value
+
+    def as_datetime(self) -> datetime.datetime:
+        return convert_ms_to_datetime(self._value)
 
 
 # endregion-------------------------------------------------------------------------
