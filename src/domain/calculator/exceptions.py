@@ -3,11 +3,11 @@
 # ----------------------------------------------------------------------------------
 from dataclasses import dataclass
 
-from domain.exceptions import DomainExceptionBase
+from domain.common.exceptions import DomainValueObjectException
 
 
 @dataclass(frozen=False)
-class CalculatorExpressionInvalidCharacterException(DomainExceptionBase):
+class CalculatorExpressionInvalidCharacterException(DomainValueObjectException):
     char: str
 
     @property
