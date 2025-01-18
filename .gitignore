@@ -1,0 +1,22 @@
+# PYTHON
+.venv
+__pycache__
+
+# ENV
+.env*
+!.env.sample
+
+# ZED
+.zed
+
+# LOGS
+logs
+
+# MONGO
+.playground
+
+# VSCODE
+.vscode
+
+# OTHER
+.DS_Store

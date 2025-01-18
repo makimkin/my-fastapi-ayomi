@@ -1,0 +1,47 @@
+services:
+  db:
+    container_name: ayomi_db
+    image: postgres:${POSTGRES_VERSION:-17.2}-alpine${POSTGRES_ALPINE_VERSION:-3.21}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-dev_db}
+      - POSTGRES_USER=${POSTGRES_USER:-dev_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASS:-dev_pass}
+    networks:
+      - app
+
+  db-ui:
+    image: dpage/pgadmin4:latest
+    container_name: ayomi_db_ui
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - pgadmin-conf:/var/lib/pgadmin
+    ports:
+      - 5050:80
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL:-admin@dev.com}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD:-admin}
+    networks:
+      - app
+
+volumes:
+  postgres-data:
+    name: ayomi_postgres_data
+    driver: local
+  pgadmin-conf:
+    name: ayomi_pgadmin_conf
+    driver: local
+
+networks:
+  app:
+    name: ayomi_network
+    driver: bridge
