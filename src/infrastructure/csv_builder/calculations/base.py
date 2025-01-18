@@ -23,7 +23,7 @@ class CalculationsCSVBuilderBase(CSVBuilderBase[CalculationEntity], ABC):
         return [
             data.calculation_id.as_raw(),
             data.expression.as_raw(),
-            "" if data.result is None else data.result.as_raw(),
+            "" if data.result is None else float(data.result.as_raw()),
             data.created_at.as_raw(),
         ]
 
