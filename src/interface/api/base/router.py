@@ -4,6 +4,7 @@
 from fastapi.routing import APIRouter
 from fastapi import status
 
+from infrastructure.csv_builder.calculations.base import CalculationsCSVBuilderBase
 from infrastructure.calculators.base import CalculatorBase
 
 from dishka.integrations.fastapi import FromDishka, DishkaRoute
@@ -21,6 +22,7 @@ router = APIRouter(prefix=BASE_PREFIX, route_class=DishkaRoute, tags=[BASE_TAG])
 )
 async def base_health_check(
     calculator: FromDishka[CalculatorBase],
+    calculations_csv_builder: FromDishka[CalculationsCSVBuilderBase],
 ) -> dict:
     """-----------------------------------------------------------------------------
     The Base Health Check Handler.
@@ -29,6 +31,10 @@ async def base_health_check(
         "calculator": {
             "name": calculator.__class__.__name__,
             "health": await calculator.check_health(),
+        },
+        "calculations_csv_builder": {
+            "name": calculations_csv_builder.__class__.__name__,
+            "health": True,
         },
     }
 

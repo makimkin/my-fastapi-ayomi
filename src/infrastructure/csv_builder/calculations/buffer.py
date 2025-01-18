@@ -17,7 +17,9 @@ logger = logging.getLogger("app")
 class CalculationsCSVBuilderBuffer(
     CalculationsCSVBuilderBase,
     CSVBuilderBuffer[CalculationEntity],
-): ...
+):
+    async def check_health(self) -> bool:
+        return True
 
 
 # endregion-------------------------------------------------------------------------

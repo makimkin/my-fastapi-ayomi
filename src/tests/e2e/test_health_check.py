@@ -27,10 +27,18 @@ async def test_health_check_success(context: ContextTest) -> None:
     assert "health" in health_check_json["calculator"], text
     assert "name" in health_check_json["calculator"], text
 
+    assert "calculationsCSVBuilder" in health_check_json, text
+    assert "health" in health_check_json["calculationsCSVBuilder"], text
+    assert "name" in health_check_json["calculationsCSVBuilder"], text
+
     health_check_data = BaseHealthCheckResponse(**health_check_json)
     assert health_check_data.calculator is not None, text
     assert health_check_data.calculator.health is True, text
     assert health_check_data.calculator.name is not None, text
+
+    assert health_check_data.calculations_csv_builder is not None, text
+    assert health_check_data.calculations_csv_builder.health is True, text
+    assert health_check_data.calculations_csv_builder.name is not None, text
     # fmt: on
 
 

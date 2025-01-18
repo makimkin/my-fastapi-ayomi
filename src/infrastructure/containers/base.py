@@ -17,7 +17,11 @@ from application.calculation.queries.get_many import (
     #
 )
 
+# fmt: off
 from infrastructure.repositories.calculation.base import CalculationRepositoryBase
+from infrastructure.csv_builder.calculations.base import CalculationsCSVBuilderBase
+from infrastructure.csv_builder.calculations.buffer import CalculationsCSVBuilderBuffer
+# fmt: on
 
 from ..calculators.rpn import CalculatorRPN
 from ..calculators.base import CalculatorBase
@@ -32,6 +36,10 @@ class ContainerBase(Provider):
     @provide(scope=Scope.APP)
     def get_calculator(self) -> CalculatorBase:
         return CalculatorRPN()
+
+    @provide(scope=Scope.APP)
+    def get_calculations_csv_builder(self) -> CalculationsCSVBuilderBase:
+        return CalculationsCSVBuilderBuffer()
 
     @provide(scope=Scope.APP)
     def get_dispatcher(
