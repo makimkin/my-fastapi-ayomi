@@ -13,4 +13,13 @@ class CalculatorExpressionInvalidException(DomainExceptionBase):
         return "Calculator expression is invalid"
 
 
+@dataclass(frozen=False)
+class CalculatorDivisionByZeroException(DomainExceptionBase):
+    expression: str
+
+    @property
+    def message(self) -> str:
+        return f"Calculator division by zero: {self.expression}"
+
+
 # endregion-------------------------------------------------------------------------

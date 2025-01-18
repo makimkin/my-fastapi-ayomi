@@ -14,6 +14,7 @@ from domain.calculation.value_objects import (
 from infrastructure.calculators.base import CalculatorBase
 from infrastructure.calculators.exceptions import (
     CalculatorExpressionInvalidException,
+    CalculatorDivisionByZeroException,
 )
 
 logger = logging.getLogger("app")
@@ -37,6 +38,9 @@ class CalculatorRPN(CalculatorBase):
                     raise CalculatorExpressionInvalidException()
 
                 x2, x1 = stack.pop(), stack.pop()
+
+                if x2 == 0 and element == CalculationOperands.DIVIDE:
+                    raise CalculatorDivisionByZeroException(expression.as_raw())
 
                 stack.append(self.OPERANDS[element](x1, x2))
                 continue
