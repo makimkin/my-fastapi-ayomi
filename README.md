@@ -57,6 +57,7 @@ Build and run [in detached mode] the application using Docker:
 ```bash
 export APP_DB=postgres
 just up [-d]
+just app-migration-up
 ```
 
 ### Shut down
