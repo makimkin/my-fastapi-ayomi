@@ -51,7 +51,7 @@ class CalculatorRPN(CalculatorBase):
             return None
 
     async def check_health(self) -> bool:
-        return True
+        return await self.compute("1 1 +") == 2
 
 
 # endregion-------------------------------------------------------------------------

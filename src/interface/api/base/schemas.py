@@ -11,9 +11,13 @@ from pydantic import Field
 # endregion-------------------------------------------------------------------------
 # region HEALTHCHECK
 # ----------------------------------------------------------------------------------
+class BaseHealthCheckResponseStatus(APISchema):
+    name: Annotated[str, Field(alias="name")]
+    health: Annotated[bool, Field(alias="health")]
+
+
 class BaseHealthCheckResponse(APISchema):
-    authenticator: Annotated[str, Field(alias="authenticator")]
-    connection_manager: Annotated[str, Field(alias="connectionManager")]
+    calculator: Annotated[BaseHealthCheckResponseStatus, Field(alias="calculator")]
 
 
 # endregion-------------------------------------------------------------------------

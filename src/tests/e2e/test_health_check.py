@@ -4,7 +4,6 @@
 import pytest
 
 from fastapi import status
-from faker import Faker
 
 from interface.api.base.base import BASE_ACTIONS, BASE_PREFIX
 from interface.api.base.schemas import (
@@ -15,10 +14,7 @@ from .conftest import ContextTest
 
 
 @pytest.mark.asyncio
-async def test_health_check_success(
-    context: ContextTest,
-    faker: Faker,
-) -> None:
+async def test_health_check_success(context: ContextTest) -> None:
     """-----------------------------------------------------------------------------
     Test health check success.
     -----------------------------------------------------------------------------"""
@@ -27,12 +23,14 @@ async def test_health_check_success(
     assert health_check_response.status_code == status.HTTP_200_OK, health_check_response.text
 
     health_check_json, text = health_check_response.json(), health_check_response.text
-    assert "authenticator" in health_check_json, text
-    assert "connectionManager" in health_check_json, text
+    assert "calculator" in health_check_json, text
+    assert "health" in health_check_json["calculator"], text
+    assert "name" in health_check_json["calculator"], text
 
     health_check_data = BaseHealthCheckResponse(**health_check_json)
-    assert health_check_data.authenticator is not None, text
-    assert health_check_data.connection_manager is not None, text
+    assert health_check_data.calculator is not None, text
+    assert health_check_data.calculator.health is True, text
+    assert health_check_data.calculator.name is not None, text
     # fmt: on
 
 
