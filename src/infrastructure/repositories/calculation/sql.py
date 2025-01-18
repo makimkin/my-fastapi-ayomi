@@ -15,8 +15,6 @@ from domain.calculation.entity import CalculationEntity
 from infrastructure.orm.models.calculation import CalculationModel
 from infrastructure.repositories.common.sql import RepositorySQL
 
-from lib.dt import convert_datetime_to_ms
-
 from .base import CalculationRepositoryBase
 
 
@@ -51,20 +49,20 @@ class CalculationRepositorySQL(
 
     def to_domain(self, model: CalculationModel) -> CalculationEntity:
         return CalculationEntity(
-            calculation_id=EntityId(str(model.calculation_id)),
             result=None
             if model.result is None
             else CalculationResult(model.result),
+            created_at=EntityCreatedAt(model.created_at),
             expression=CalculationExpression(model.expression),
-            created_at=EntityCreatedAt(convert_datetime_to_ms(model.created_at)),
+            calculation_id=EntityId(str(model.calculation_id)),
         )
 
     def to_model(self, entity: CalculationEntity) -> CalculationModel:
         return CalculationModel(
-            calculation_id=entity.calculation_id.as_raw(),
             result=None if entity.result is None else entity.result.as_raw(),
+            calculation_id=entity.calculation_id.as_raw(),
             expression=entity.expression.as_raw(),
-            created_at=entity.created_at.as_datetime(),
+            created_at=entity.created_at.as_raw(),
         )
 
 
