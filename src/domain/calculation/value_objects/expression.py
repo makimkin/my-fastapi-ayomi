@@ -7,7 +7,10 @@ from enum import Enum
 
 from domain.common.value_object import ValueObjectBase
 
-from ..exceptions import CalculationExpressionInvalidCharacterException
+from ..exceptions import (
+    CalculationExpressionEmptyException,
+    CalculationExpressionInvalidCharacterException,
+)
 
 
 class CalculationOperands(Enum):
@@ -21,6 +24,9 @@ class CalculationOperands(Enum):
 class CalculationExpression(ValueObjectBase[str]):
     def validate(self):
         object.__setattr__(self, "_value", self._value.strip())
+
+        if len(self._value) == 0:
+            raise CalculationExpressionEmptyException()
 
         for e in self._value.split(" "):
             if self._try_to_convert(e) is not None:
