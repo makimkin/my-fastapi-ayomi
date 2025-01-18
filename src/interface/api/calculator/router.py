@@ -1,13 +1,20 @@
 # endregion-------------------------------------------------------------------------
 # region CALCULATOR HANDLERS
 # ----------------------------------------------------------------------------------
-from fastapi import status
+import datetime
+import io
+
+from fastapi.responses import StreamingResponse
 from fastapi.routing import APIRouter
+from fastapi import status
 
 from dishka.integrations.fastapi import DishkaRoute, FromDishka
 
-from application.calculation.commands.compute import CalculationComputeCommand
-from application.calculation.queries.get_many import CalculationGetManyQuery
+from application.calculation.commands import (
+    CalculationComputeCommand,
+    CalculationGenerateCSVCommand,
+)
+from application.calculation.queries import CalculationGetManyQuery
 
 from infrastructure.dispatchers.dispatcher import Dispatcher
 
@@ -62,6 +69,32 @@ async def calculator_read_many(
     calculations = await dispatcher.handle_query(CalculationGetManyQuery())
 
     return {"items": calculations}
+
+
+# endregion-------------------------------------------------------------------------
+# region GENERATE CSV
+# ----------------------------------------------------------------------------------
+@router.get(
+    CALCULATOR_ACTIONS.GENERATE_CSV,
+    status_code=status.HTTP_200_OK,
+)
+async def calculator_generate_csv(dispatcher: FromDishka[Dispatcher]):
+    """-----------------------------------------------------------------------------
+    Calculator generate csv endpoint.
+    -----------------------------------------------------------------------------"""
+    csv_data = await dispatcher.handle_command(CalculationGenerateCSVCommand())
+
+    csv_io = io.StringIO(csv_data)
+
+    now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    return StreamingResponse(
+        csv_io,
+        media_type="text/csv",
+        headers={
+            "Content-Disposition": f"attachment; filename=calculations_{now}.csv",
+        },
+    )
 
 
 # endregion-------------------------------------------------------------------------

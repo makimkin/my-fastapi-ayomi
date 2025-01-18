@@ -12,5 +12,7 @@ class CALCULATOR_ACTIONS(Actions):
 
     READ_MANY = "/"
 
+    GENERATE_CSV = "/csv"
+
 
 # endregion-------------------------------------------------------------------------
