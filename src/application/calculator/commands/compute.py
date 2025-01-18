@@ -33,10 +33,11 @@ class CalculatorComputeCommandHandler(
         self,
         command: CalculatorComputeCommand,
     ) -> CalculatorEntity:
-        result = await self.calculator.compute(command.expression)
+        expression = CalculatorExpression(command.expression)
+        result = await self.calculator.compute(expression)
 
         return CalculatorEntity(
-            expression=CalculatorExpression(command.expression),
+            expression=expression,
             result=CalculatorResult(result),
         )
 

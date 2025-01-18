@@ -6,6 +6,7 @@ import logging
 from decimal import Decimal, InvalidOperation
 from dataclasses import dataclass
 
+from domain.calculator.value_objects import CalculatorExpression
 from infrastructure.calculators.base import CalculatorBase
 
 logger = logging.getLogger("app")
@@ -20,8 +21,8 @@ class CalculatorRPN(CalculatorBase):
         "+": lambda e1, e2: e1 + e2,
     }
 
-    async def compute(self, expression: str) -> Decimal:
-        items = expression.strip().split(" ")
+    async def compute(self, expression: CalculatorExpression) -> Decimal:
+        items = expression.as_raw().split(" ")
 
         stack = []
 
@@ -51,7 +52,9 @@ class CalculatorRPN(CalculatorBase):
             return None
 
     async def check_health(self) -> bool:
-        return await self.compute("1 1 +") == 2
+        expression = CalculatorExpression("1 1 +")
+
+        return await self.compute(expression) == 2
 
 
 # endregion-------------------------------------------------------------------------
