@@ -7,9 +7,6 @@ from abc import ABC, abstractmethod
 from .event import EventBase
 
 
-KEY_ENTITY_ID = "id"
-
-
 @dataclass(eq=False, kw_only=True)
 class EntityBase(ABC):
     _events: list[EventBase] = field(default_factory=list)
@@ -24,7 +21,7 @@ class EntityBase(ABC):
         return events
 
     def to_dict(self) -> dict:
-        return {}
+        return self._to_dict()
 
     @abstractmethod
     def _to_dict(self) -> dict:
