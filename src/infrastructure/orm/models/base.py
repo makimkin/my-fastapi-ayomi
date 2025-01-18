@@ -28,6 +28,7 @@ class ASSOCIATION_TABLES(str, Enum):
 # region BASE MODEL
 # ----------------------------------------------------------------------------------
 class ModelBase(DeclarativeBase):
+    __abstract__ = True
     __allow_unmapped__ = True
 
 
