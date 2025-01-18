@@ -32,8 +32,8 @@ For developers:
 
 ```bash
 git init
-rm -rf ./git/hooks
-git clone git@github.com:makimkin/hooks.git hooks
+rm -rf ./.git/hooks
+git clone git@github.com:makimkin/hooks.git ./.git/hooks
 pre-commit install
 ```
 
