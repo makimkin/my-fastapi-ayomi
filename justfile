@@ -1,7 +1,7 @@
 dc := "docker compose"
 
 file_app := "--file docker-compose.app.yaml"
-file_db := "--file docker-compose.postgres.yaml"
+file_db := "--file docker-compose.mongo.yaml"
 
 container_db_ui := "db-ui"
 container_app := "app"
@@ -45,6 +45,9 @@ app-migration-gen:
 
 app-migration-up:
   {{command}} exec {{container_app}} alembic upgrade head
+
+app-migration-base:
+  {{command}} exec {{container_app}} alembic downgrade base
 
 db-ui-logs +args="":
   {{command}} logs {{container_db_ui}} {{args}}

@@ -22,6 +22,8 @@ class Config(BaseSettings):
     MONGO_PORT: Annotated[int, Field(alias="MONGO_PORT")] = 27017
     MONGO_DB: Annotated[str, Field(alias="MONGO_DB")] = "db"
 
+    MONGO_CALCULATIONS_COLLECTION_NAME: Annotated[str, Field(alias="MONGO_CALCULATIONS_COLLECTION_NAME")] = "calculations"
+
     POSTGRES_HOST: Annotated[str, Field(alias="POSTGRES_HOST")] = "localhost"
     POSTGRES_USER: Annotated[str, Field(alias="POSTGRES_USER")] = "user"
     POSTGRES_PASS: Annotated[str, Field(alias="POSTGRES_PASS")] = "pass"  # noqa: S105

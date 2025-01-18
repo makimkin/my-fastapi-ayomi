@@ -6,6 +6,8 @@ from dishka import provide, Scope
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 
 
+from infrastructure.repositories.calculation.base import CalculationRepositoryBase
+from infrastructure.repositories.calculation.mongo import CalculationRepositoryMongo
 from settings.config import Config
 
 
@@ -21,6 +23,16 @@ class MongoRepositoriesContainer:
         client: AsyncIOMotorClient,
     ) -> AsyncIOMotorDatabase:
         return client[config.MONGO_DB]
+
+    @provide(scope=Scope.APP)
+    def get_calculations_repository(
+        self,
+        config: Config,
+        mongo_db: AsyncIOMotorDatabase,
+    ) -> CalculationRepositoryBase:
+        return CalculationRepositoryMongo(
+            collection=mongo_db[config.MONGO_CALCULATIONS_COLLECTION_NAME]
+        )
 
 
 # endregion-------------------------------------------------------------------------

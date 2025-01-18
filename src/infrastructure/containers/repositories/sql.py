@@ -9,6 +9,9 @@ from sqlalchemy.ext.asyncio import (
     AsyncSession,
 )
 
+from infrastructure.repositories.calculation.base import CalculationRepositoryBase
+from infrastructure.repositories.calculation.sql import CalculationRepositorySQL
+
 from settings.config import Config
 
 
@@ -26,6 +29,13 @@ class SQLRepositoriesContainer:
             autoflush=False,
             bind=engine,
         )
+
+    @provide(scope=Scope.APP)
+    def get_calculations_repository(
+        self,
+        session_maker: async_sessionmaker[AsyncSession],
+    ) -> CalculationRepositoryBase:
+        return CalculationRepositorySQL(session_maker=session_maker)
 
 
 # endregion-------------------------------------------------------------------------

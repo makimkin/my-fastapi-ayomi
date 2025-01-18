@@ -17,6 +17,8 @@ services:
       - MONGO_HOST=${MONGO_HOST:-db}
       - MONGO_DB=${MONGO_DB:-ayomi}
 
+      - MONGO_CALCULATIONS_COLLECTION_NAME=${MONGO_CALCULATIONS_COLLECTION_NAME:-calculations}
+
       - APP_PORT=${APP_PORT:-8000}
       - APP_ENV=${APP_ENV:-development}
 

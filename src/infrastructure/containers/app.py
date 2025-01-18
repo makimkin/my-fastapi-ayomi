@@ -1,13 +1,13 @@
 # endregion-------------------------------------------------------------------------
 # region CONTAINER APP
 # ----------------------------------------------------------------------------------
+from .repositories.mongo import MongoRepositoriesContainer
 from .base import ContainerBase
-from .repositories.sql import SQLRepositoriesContainer
 
 
 class ContainerApp(
     ContainerBase,
-    SQLRepositoriesContainer,
+    MongoRepositoriesContainer,
 ): ...
 
 
