@@ -25,5 +25,8 @@ class RepositoryMemory[T](RepositoryBase, ABC):
         -------------------------------------------------------------------------"""
         self._saved = items
 
+    async def check_health(self) -> bool:
+        return True
+
 
 # endregion-------------------------------------------------------------------------
