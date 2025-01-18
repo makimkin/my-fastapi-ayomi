@@ -39,7 +39,9 @@ pre-commit install
 
 ## Usage
 
-### Running with Docker and MongoDB as database
+### Running
+
+#### Docker + MongoDB
 
 Build and run [in detached mode] the application using Docker:
 
@@ -48,7 +50,7 @@ Build and run [in detached mode] the application using Docker:
 just up [-d]
 ```
 
-### Running with Docker and PostgreSQL as database
+#### Docker + PostgreSQL
 
 Build and run [in detached mode] the application using Docker:
 
@@ -57,12 +59,19 @@ export APP_DB=postgres
 just up [-d]
 ```
 
-###
-
-### Shutting down with Docker
+### Shut down
 
 Shutting down the application [and remove its volumes]:
 
 ```bash
 just down [-v]
+```
+
+## Test
+
+Run tests [with outputs] [and exit of the first test failure]
+
+```bash
+[export APP_DB=mongo]
+just test [-s] [--sw]
 ```
