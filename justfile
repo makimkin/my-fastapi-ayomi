@@ -2,16 +2,12 @@ dc := "docker compose"
 
 file_app := "--file docker-compose.app.yaml"
 file_db := "--file docker-compose.postgres.yaml"
-file_cache := "--file docker-compose.redis.yaml"
-file_broker := "--file docker-compose.kafka.yaml"
 
-container_cache := "cache"
 container_db_ui := "db-ui"
 container_app := "app"
 container_db := "db"
 
-# command := dc + " " + file_app + " " + file_db + " " + file_cache
-command := dc + " " + file_app + " " + file_db + " " + file_broker + " " + file_cache
+command := dc + " " + file_app + " " + file_db
 
 default:
   just --list
@@ -52,12 +48,6 @@ app-migration-up:
 
 db-ui-logs +args="":
   {{command}} logs {{container_db_ui}} {{args}}
-
-cache-cli +args="":
-  {{command}} exec {{container_cache}} redis-cli {{args}}
-
-cache-logs +args="":
-  {{command}} logs {{container_cache}} {{args}}
 
 sql-connect:
   {{command}} exec {{container_db}} psql -U dev_user kot-db
