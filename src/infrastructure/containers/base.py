@@ -16,8 +16,6 @@ from application.calculator.commands import (
 from ..calculators.rpn import CalculatorRPN
 from ..calculators.base import CalculatorBase
 from ..dispatchers.dispatcher import Dispatcher
-from ..authenticator.base import AuthenticatorBase
-from ..authenticator.argon import ArgonAuthenticator
 from ..connection_manager.common.base import ConnectionManagerBase
 from ..connection_manager.fastapi.concurrent import FastAPIConnectionManagerConcurrent
 # fmt: on
@@ -39,15 +37,6 @@ class ContainerBase(Provider):
     @provide(scope=Scope.APP)
     def get_calculator(self) -> CalculatorBase:
         return CalculatorRPN()
-
-    @provide(scope=Scope.APP)
-    def get_authenticator(self, config: Config) -> AuthenticatorBase:
-        return ArgonAuthenticator(
-            access_token_secret_key=config.AUTH_ACCESS_TOKEN_SECRET_KEY,
-            refresh_token_secret_key=config.AUTH_REFRESH_TOKEN_SECRET_KEY,
-            access_token_expiration_seconds=config.AUTH_ACCESS_TOKEN_EXPIRATION_SECONDS,
-            refresh_token_expiration_seconds=config.AUTH_REFRESH_TOKEN_EXPIRATION_SECONDS,
-        )
 
     @provide(scope=Scope.APP)
     def get_dispatcher(

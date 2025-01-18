@@ -18,12 +18,6 @@ class Config(BaseSettings):
 
     LOGGER_CONFIG_PATH: Annotated[str, Field(alias="LOGGER_CONFIG_PATH")] = "logger.yaml"
 
-    AUTH_ACCESS_TOKEN_SECRET_KEY: Annotated[str, Field(alias="AUTH_ACCESS_TOKEN_SECRET_KEY")] = ""
-    AUTH_ACCESS_TOKEN_EXPIRATION_SECONDS: Annotated[int, Field(alias="AUTH_ACCESS_TOKEN_EXPIRATION_SECONDS")] = 60 * 15 # 15 minutes
-
-    AUTH_REFRESH_TOKEN_SECRET_KEY: Annotated[str, Field(alias="AUTH_REFRESH_TOKEN_SECRET_KEY")] = ""
-    AUTH_REFRESH_TOKEN_EXPIRATION_SECONDS: Annotated[int, Field(alias="AUTH_REFRESH_TOKEN_EXPIRATION_SECONDS")] = 60 * 60 * 24 * 7 # 7 days
-
     MONGO_HOST: Annotated[str, Field(alias="MONGO_HOST")] = "localhost"
     MONGO_PORT: Annotated[int, Field(alias="MONGO_PORT")] = 27017
     MONGO_DB: Annotated[str, Field(alias="MONGO_DB")] = "db"
