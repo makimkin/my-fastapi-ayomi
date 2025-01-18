@@ -6,9 +6,11 @@ from dataclasses import dataclass
 
 from domain.calculation.entity import CalculationEntity
 
+from ..common.base import RepositoryBase
+
 
 @dataclass
-class CalculationRepositoryBase(ABC):
+class CalculationRepositoryBase(RepositoryBase, ABC):
     @abstractmethod
     async def save_one(self, calculation: CalculationEntity) -> None:
         """-------------------------------------------------------------------------
