@@ -36,7 +36,7 @@ class CalculatorEntity(EntityBase):
         }
 
     @classmethod
-    def from_dict(cls, document: dict) -> "EntityBase":
+    def from_dict(cls, document: dict) -> "CalculatorEntity":
         return cls(
             expression=CalculatorExpression(document[KEY_EXPRESSION]),
             result=CalculatorResult(Decimal.from_float(document[KEY_RESULT]))
