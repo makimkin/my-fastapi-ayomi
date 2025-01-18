@@ -1,7 +1,9 @@
+DB = "mongo" # available options: mongo, postgres
+
 dc := "docker compose"
 
 file_app := "--file docker-compose.app.yaml"
-file_db := "--file docker-compose.mongo.yaml"
+file_db := "--file docker-compose." + DB + ".yaml"
 
 container_db_ui := "db-ui"
 container_app := "app"
@@ -11,13 +13,6 @@ command := dc + " " + file_app + " " + file_db
 
 default:
   just --list
-
-install:
-    deactivate || true
-    rm -rf .venv
-    python3.13 -m venv .venv
-    . .venv/bin/activate
-    poetry install
 
 up +args="":
   {{command}} up --build --remove-orphans {{args}}
