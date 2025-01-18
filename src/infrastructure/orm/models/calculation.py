@@ -5,7 +5,7 @@ import datetime
 
 from decimal import Decimal
 
-from sqlalchemy import DATETIME, DECIMAL, TEXT, UUID
+from sqlalchemy import TIMESTAMP, DECIMAL, TEXT, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from .base import ModelBase, TABLES
@@ -21,9 +21,9 @@ class CalculationModel(ModelBase):
     calculation_id: Mapped[UUID] = mapped_column(UUID, primary_key=True)
 
     expression: Mapped[str] = mapped_column(TEXT)
-    result: Mapped[Decimal] = mapped_column(DECIMAL)
+    result: Mapped[Decimal | None] = mapped_column(DECIMAL)
 
-    created_at: Mapped[datetime.datetime] = mapped_column(DATETIME)
+    created_at: Mapped[datetime.datetime] = mapped_column(TIMESTAMP)
 
 
 # endregion-------------------------------------------------------------------------

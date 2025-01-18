@@ -5,7 +5,10 @@ from dataclasses import dataclass
 
 from sqlalchemy import select
 
-from domain.calculation.value_objects import CalculationExpression, CalculationResult
+from domain.calculation.value_objects import (
+    CalculationExpression,
+    CalculationResult,
+)
 from domain.common.value_object import EntityCreatedAt, EntityId
 from domain.calculation.entity import CalculationEntity
 
@@ -49,16 +52,18 @@ class CalculationRepositorySQL(
     def to_domain(self, model: CalculationModel) -> CalculationEntity:
         return CalculationEntity(
             calculation_id=EntityId(str(model.calculation_id)),
-            result=CalculationResult(model.result),
+            result=None
+            if model.result is None
+            else CalculationResult(model.result),
             expression=CalculationExpression(model.expression),
             created_at=EntityCreatedAt(convert_datetime_to_ms(model.created_at)),
         )
 
     def to_model(self, entity: CalculationEntity) -> CalculationModel:
         return CalculationModel(
-            calculation_id=entity.calculation_id,
-            result=entity.result,
-            expression=entity.expression,
+            calculation_id=entity.calculation_id.as_raw(),
+            result=None if entity.result is None else entity.result.as_raw(),
+            expression=entity.expression.as_raw(),
             created_at=entity.created_at.as_datetime(),
         )
 
