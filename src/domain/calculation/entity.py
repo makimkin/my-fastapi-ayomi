@@ -4,7 +4,7 @@
 from dataclasses import dataclass, field
 from decimal import Decimal
 
-from domain.calculator.value_objects import CalculatorExpression, CalculatorResult
+from domain.calculation.value_objects import CalculationExpression, CalculationResult
 from domain.common.value_object import EntityCreatedAt, EntityId
 
 from ..common.entity import EntityBase
@@ -16,7 +16,7 @@ KEY_RESULT = "result"
 
 
 @dataclass(eq=False, kw_only=True)
-class CalculatorEntity(EntityBase):
+class CalculationEntity(EntityBase):
     calculation_id: EntityId = field(
         default_factory=lambda: EntityId.create(),
         metadata={
@@ -33,13 +33,13 @@ class CalculatorEntity(EntityBase):
         },
     )
 
-    expression: CalculatorExpression = field(
+    expression: CalculationExpression = field(
         metadata={
             "optional": False,
             "description": "The expression to calculate.",
         }
     )
-    result: CalculatorResult | None = field(
+    result: CalculationResult | None = field(
         default=None,
         metadata={
             "optional": True,
@@ -57,14 +57,14 @@ class CalculatorEntity(EntityBase):
         }
 
     @classmethod
-    def from_dict(cls, document: dict) -> "CalculatorEntity":
+    def from_dict(cls, document: dict) -> "CalculationEntity":
         calculation_id = EntityId(document[KEY_ID])
         created_at = EntityCreatedAt(document[KEY_CREATED_AT])
-        expression = CalculatorExpression(document[KEY_EXPRESSION])
+        expression = CalculationExpression(document[KEY_EXPRESSION])
         result = (
             None
             if document[KEY_RESULT] is None
-            else CalculatorResult(Decimal.from_float(document[KEY_RESULT]))
+            else CalculationResult(Decimal.from_float(document[KEY_RESULT]))
         )
 
         return cls(

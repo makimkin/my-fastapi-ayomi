@@ -5,10 +5,9 @@ from dataclasses import dataclass
 
 from sqlalchemy import select
 
-from domain.calculator.entity import CalculatorEntity
-
-from domain.calculator.value_objects import CalculatorExpression, CalculatorResult
+from domain.calculation.value_objects import CalculationExpression, CalculationResult
 from domain.common.value_object import EntityCreatedAt, EntityId
+from domain.calculation.entity import CalculationEntity
 
 from infrastructure.orm.models.calculation import CalculationModel
 from infrastructure.repositories.common.sql import RepositorySQL
@@ -22,23 +21,23 @@ from .base import CalculationRepositoryBase
 class CalculationRepositorySQL(
     CalculationRepositoryBase,
     RepositorySQL[
-        CalculatorEntity,
+        CalculationEntity,
         CalculationModel,
     ],
 ):
-    async def save_one(self, calculator: CalculatorEntity) -> None:
+    async def save_one(self, calculation: CalculationEntity) -> None:
         """-------------------------------------------------------------------------
-        Save a calculator.
+        Save a calculation.
         -------------------------------------------------------------------------"""
         async with self.session_maker() as session:
-            model = self.to_model(calculator)
+            model = self.to_model(calculation)
 
             session.add(model)
             await session.commit()
 
-    async def get_many(self) -> list[CalculatorEntity]:
+    async def get_many(self) -> list[CalculationEntity]:
         """-------------------------------------------------------------------------
-        Get all calculators.
+        Get all calculations.
         -------------------------------------------------------------------------"""
         statement = select(CalculationModel)
 
@@ -47,15 +46,15 @@ class CalculationRepositorySQL(
 
             return [self.to_domain(m) for m in models]
 
-    def to_domain(self, model: CalculationModel) -> CalculatorEntity:
-        return CalculatorEntity(
+    def to_domain(self, model: CalculationModel) -> CalculationEntity:
+        return CalculationEntity(
             calculation_id=EntityId(str(model.calculation_id)),
-            result=CalculatorResult(model.result),
-            expression=CalculatorExpression(model.expression),
+            result=CalculationResult(model.result),
+            expression=CalculationExpression(model.expression),
             created_at=EntityCreatedAt(convert_datetime_to_ms(model.created_at)),
         )
 
-    def to_model(self, entity: CalculatorEntity) -> CalculationModel:
+    def to_model(self, entity: CalculationEntity) -> CalculationModel:
         return CalculationModel(
             calculation_id=entity.calculation_id,
             result=entity.result,

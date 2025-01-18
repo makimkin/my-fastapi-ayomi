@@ -3,7 +3,7 @@
 # ----------------------------------------------------------------------------------
 from dataclasses import dataclass
 
-from domain.calculator.entity import CalculatorEntity
+from domain.calculation.entity import CalculationEntity
 
 from infrastructure.repositories.common.mongo import RepositoryMongo
 
@@ -13,15 +13,15 @@ from .base import CalculationRepositoryBase
 @dataclass
 class CalculationRepositoryMongo(
     CalculationRepositoryBase,
-    RepositoryMongo[CalculatorEntity],
+    RepositoryMongo[CalculationEntity],
 ):
-    async def save_one(self, calculator: CalculatorEntity) -> None:
+    async def save_one(self, calculator: CalculationEntity) -> None:
         """-------------------------------------------------------------------------
         Save a calculator.
         -------------------------------------------------------------------------"""
         await self.collection.insert_one(self.to_document(calculator))
 
-    async def get_many(self) -> list[CalculatorEntity]:
+    async def get_many(self) -> list[CalculationEntity]:
         """-------------------------------------------------------------------------
         Get all calculators.
         -------------------------------------------------------------------------"""
@@ -29,10 +29,10 @@ class CalculationRepositoryMongo(
             self.to_domain(document) async for document in self.collection.find()
         ]
 
-    def to_domain(self, document: dict) -> CalculatorEntity:
-        return CalculatorEntity.from_dict(document)
+    def to_domain(self, document: dict) -> CalculationEntity:
+        return CalculationEntity.from_dict(document)
 
-    def to_document(self, entity: CalculatorEntity) -> dict:
+    def to_document(self, entity: CalculationEntity) -> dict:
         return entity.to_dict()
 
 

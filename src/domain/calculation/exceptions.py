@@ -1,5 +1,5 @@
 # endregion-------------------------------------------------------------------------
-# region CALCULATOR DOMAIN EXCEPTIONS
+# region CALCULATION DOMAIN EXCEPTIONS
 # ----------------------------------------------------------------------------------
 from dataclasses import dataclass
 
@@ -7,7 +7,7 @@ from domain.common.exceptions import DomainValueObjectException
 
 
 @dataclass(frozen=False)
-class CalculatorExpressionInvalidCharacterException(DomainValueObjectException):
+class CalculationExpressionInvalidCharacterException(DomainValueObjectException):
     char: str
 
     @property

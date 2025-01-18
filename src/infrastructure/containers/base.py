@@ -5,17 +5,15 @@ from settings.config import Config
 
 from dishka import Scope, Provider, provide
 
-from application.calculator.commands import (
-    CalculatorComputeCommandHandler,
-    CalculatorComputeCommand,
+from application.calculation.commands import (
+    CalculationComputeCommandHandler,
+    CalculationComputeCommand,
     #
 )
 
-# fmt: off
 from ..calculators.rpn import CalculatorRPN
 from ..calculators.base import CalculatorBase
 from ..dispatchers.dispatcher import Dispatcher
-# fmt: on
 
 
 class ContainerBase(Provider):
@@ -35,12 +33,12 @@ class ContainerBase(Provider):
         dispatcher = Dispatcher()
 
         # COMMANDS
-        calculator_compute_command_handler = CalculatorComputeCommandHandler(
+        calculator_compute_command_handler = CalculationComputeCommandHandler(
             calculator=calculator,
         )
 
         dispatcher.register_command(
-            CalculatorComputeCommand,
+            CalculationComputeCommand,
             calculator_compute_command_handler,
         )
 

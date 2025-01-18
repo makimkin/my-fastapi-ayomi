@@ -6,7 +6,10 @@ import logging
 from dataclasses import dataclass
 from decimal import Decimal
 
-from domain.calculator.value_objects import CalculatorExpression, CalculatorOperands
+from domain.calculation.value_objects import (
+    CalculationExpression,
+    CalculationOperands,
+)
 
 from infrastructure.calculators.base import CalculatorBase
 from infrastructure.calculators.exceptions import (
@@ -19,13 +22,13 @@ logger = logging.getLogger("app")
 @dataclass
 class CalculatorRPN(CalculatorBase):
     OPERANDS = {
-        CalculatorOperands.SUBTRACT: lambda e1, e2: e1 - e2,
-        CalculatorOperands.MULTIPLY: lambda e1, e2: e1 * e2,
-        CalculatorOperands.DIVIDE: lambda e1, e2: e1 / e2,
-        CalculatorOperands.ADD: lambda e1, e2: e1 + e2,
+        CalculationOperands.SUBTRACT: lambda e1, e2: e1 - e2,
+        CalculationOperands.MULTIPLY: lambda e1, e2: e1 * e2,
+        CalculationOperands.DIVIDE: lambda e1, e2: e1 / e2,
+        CalculationOperands.ADD: lambda e1, e2: e1 + e2,
     }
 
-    async def compute(self, expression: CalculatorExpression) -> Decimal:
+    async def compute(self, expression: CalculationExpression) -> Decimal:
         stack = []
 
         for element in expression.to_list():
@@ -43,7 +46,7 @@ class CalculatorRPN(CalculatorBase):
         return stack.pop()
 
     async def check_health(self) -> bool:
-        expression = CalculatorExpression("1 1 +")
+        expression = CalculationExpression("1 1 +")
 
         return await self.compute(expression) == 2
 

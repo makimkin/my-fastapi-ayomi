@@ -4,22 +4,22 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-from domain.calculator.entity import CalculatorEntity
+from domain.calculation.entity import CalculationEntity
 
 
 @dataclass
 class CalculationRepositoryBase(ABC):
     @abstractmethod
-    async def save_one(self, calculator: CalculatorEntity) -> None:
+    async def save_one(self, calculation: CalculationEntity) -> None:
         """-------------------------------------------------------------------------
-        Save a calculator.
+        Save a calculation.
         -------------------------------------------------------------------------"""
         ...
 
     @abstractmethod
-    async def get_many(self) -> list[CalculatorEntity]:
+    async def get_many(self) -> list[CalculationEntity]:
         """-------------------------------------------------------------------------
-        Get all calculators.
+        Get all calculations.
         -------------------------------------------------------------------------"""
         ...
 

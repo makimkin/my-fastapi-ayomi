@@ -1,5 +1,5 @@
 # endregion-------------------------------------------------------------------------
-# region CALCULATOR EXPRESSION VALUE OBJECT
+# region CALCULATION RESULT VALUE OBJECT
 # ----------------------------------------------------------------------------------
 from dataclasses import dataclass
 from decimal import Decimal
@@ -8,7 +8,7 @@ from domain.common.value_object import ValueObjectBase
 
 
 @dataclass(frozen=True)
-class CalculatorResult(ValueObjectBase[Decimal]):
+class CalculationResult(ValueObjectBase[Decimal]):
     def validate(self):
         pass
 

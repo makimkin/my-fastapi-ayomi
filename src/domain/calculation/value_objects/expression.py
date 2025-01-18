@@ -1,5 +1,5 @@
 # endregion-------------------------------------------------------------------------
-# region CALCULATOR EXPRESSION VALUE OBJECT
+# region CALCULATION EXPRESSION VALUE OBJECT
 # ----------------------------------------------------------------------------------
 from decimal import Decimal, InvalidOperation
 from dataclasses import dataclass
@@ -7,10 +7,10 @@ from enum import Enum
 
 from domain.common.value_object import ValueObjectBase
 
-from ..exceptions import CalculatorExpressionInvalidCharacterException
+from ..exceptions import CalculationExpressionInvalidCharacterException
 
 
-class CalculatorOperands(Enum):
+class CalculationOperands(Enum):
     ADD = "+"
     SUBTRACT = "-"
     MULTIPLY = "*"
@@ -18,7 +18,7 @@ class CalculatorOperands(Enum):
 
 
 @dataclass(frozen=True)
-class CalculatorExpression(ValueObjectBase[str]):
+class CalculationExpression(ValueObjectBase[str]):
     def validate(self):
         object.__setattr__(self, "_value", self._value.strip())
 
@@ -29,7 +29,7 @@ class CalculatorExpression(ValueObjectBase[str]):
             if e in ["+", "-", "*", "/"]:
                 continue
 
-            raise CalculatorExpressionInvalidCharacterException(e)
+            raise CalculationExpressionInvalidCharacterException(e)
 
     def _try_to_convert(self, e: str) -> Decimal | None:
         try:
@@ -37,7 +37,7 @@ class CalculatorExpression(ValueObjectBase[str]):
         except InvalidOperation:
             return None
 
-    def to_list(self) -> list[Decimal | CalculatorOperands]:
+    def to_list(self) -> list[Decimal | CalculationOperands]:
         elements = []
 
         for e in self._value.split(" "):
@@ -45,7 +45,7 @@ class CalculatorExpression(ValueObjectBase[str]):
                 elements.append(n)
                 continue
 
-            elements.append(CalculatorOperands(e))
+            elements.append(CalculationOperands(e))
 
         return elements
 

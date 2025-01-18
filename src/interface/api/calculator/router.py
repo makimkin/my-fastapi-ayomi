@@ -6,7 +6,8 @@ from fastapi.routing import APIRouter
 
 from dishka.integrations.fastapi import DishkaRoute, FromDishka
 
-from application.calculator.commands.compute import CalculatorComputeCommand
+from application.calculation.commands.compute import CalculationComputeCommand
+
 from infrastructure.dispatchers.dispatcher import Dispatcher
 
 from .base import CALCULATOR_PREFIX, CALCULATOR_ACTIONS, CALCULATOR_TAG
@@ -35,7 +36,7 @@ async def calculator_compute(
     Calculator compute endpoint.
     -----------------------------------------------------------------------------"""
     return await dispatcher.handle_command(
-        CalculatorComputeCommand(expression=request.expression)
+        CalculationComputeCommand(expression=request.expression)
     )
 
 

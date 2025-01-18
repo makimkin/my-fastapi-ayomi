@@ -1,5 +1,5 @@
 # endregion-------------------------------------------------------------------------
-# region CALCULATOR COMPUTE COMMAND
+# region CALCULATION COMPUTE COMMAND
 # ----------------------------------------------------------------------------------
 import logging
 
@@ -7,8 +7,8 @@ from dataclasses import dataclass
 
 from application.common.command import CommandBase, CommandHandlerBase
 
-from domain.calculator.value_objects import CalculatorExpression, CalculatorResult
-from domain.calculator.entity import CalculatorEntity
+from domain.calculation.value_objects import CalculationExpression, CalculationResult
+from domain.calculation.entity import CalculationEntity
 
 from infrastructure.calculators.base import CalculatorBase
 
@@ -16,29 +16,29 @@ logger = logging.getLogger("app")
 
 
 @dataclass(frozen=True)
-class CalculatorComputeCommand(CommandBase):
+class CalculationComputeCommand(CommandBase):
     expression: str
 
 
 @dataclass(frozen=True)
-class CalculatorComputeCommandHandler(
+class CalculationComputeCommandHandler(
     CommandHandlerBase[
-        CalculatorComputeCommand,
-        CalculatorEntity,
+        CalculationComputeCommand,
+        CalculationEntity,
     ]
 ):
     calculator: CalculatorBase
 
     async def _handle(
         self,
-        command: CalculatorComputeCommand,
-    ) -> CalculatorEntity:
-        expression = CalculatorExpression(command.expression)
+        command: CalculationComputeCommand,
+    ) -> CalculationEntity:
+        expression = CalculationExpression(command.expression)
         result = await self.calculator.compute(expression)
 
-        return CalculatorEntity(
+        return CalculationEntity(
             expression=expression,
-            result=CalculatorResult(result),
+            result=CalculationResult(result),
         )
 
 

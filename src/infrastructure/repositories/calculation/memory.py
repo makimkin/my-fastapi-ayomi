@@ -3,7 +3,7 @@
 # ----------------------------------------------------------------------------------
 from dataclasses import dataclass
 
-from domain.calculator.entity import CalculatorEntity
+from domain.calculation.entity import CalculationEntity
 
 from infrastructure.repositories.common.memory import RepositoryMemory
 
@@ -13,17 +13,17 @@ from .base import CalculationRepositoryBase
 @dataclass
 class CalculationRepositoryMemory(
     CalculationRepositoryBase,
-    RepositoryMemory[CalculatorEntity],
+    RepositoryMemory[CalculationEntity],
 ):
-    async def save_one(self, calculator: CalculatorEntity) -> None:
+    async def save_one(self, calculation: CalculationEntity) -> None:
         """-------------------------------------------------------------------------
-        Save a calculator.
+        Save a calculation.
         -------------------------------------------------------------------------"""
-        self._saved.append(calculator)
+        self._saved.append(calculation)
 
-    async def get_many(self) -> list[CalculatorEntity]:
+    async def get_many(self) -> list[CalculationEntity]:
         """-------------------------------------------------------------------------
-        Get all calculators.
+        Get all calculations.
         -------------------------------------------------------------------------"""
         return self.saved
 

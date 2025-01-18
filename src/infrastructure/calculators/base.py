@@ -7,7 +7,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from decimal import Decimal
 
-from domain.calculator.value_objects import CalculatorExpression
+from domain.calculation.value_objects import CalculationExpression
 
 from infrastructure.common.base import InfrastructureBase
 
@@ -17,7 +17,7 @@ logger = logging.getLogger("app")
 @dataclass
 class CalculatorBase(InfrastructureBase, ABC):
     @abstractmethod
-    async def compute(self, expression: CalculatorExpression) -> Decimal:
+    async def compute(self, expression: CalculationExpression) -> Decimal:
         """-------------------------------------------------------------------------
         Compute the expression and return the result.
         -------------------------------------------------------------------------"""

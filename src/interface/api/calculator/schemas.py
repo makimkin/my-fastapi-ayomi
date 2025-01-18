@@ -4,8 +4,8 @@
 from typing import Annotated
 
 from interface.api.fields import (
-    FIELD_CALCULATOR_EXPRESSION,
-    FIELD_CALCULATOR_RESULT,
+    FIELD_CALCULATION_EXPRESSION,
+    FIELD_CALCULATION_RESULT,
 )
 
 
@@ -23,11 +23,11 @@ class CalculatorComputeRequest(APISchema):
 
 class CalculatorComputeResponse(APISchema):
     expression: Annotated[
-        FIELD_CALCULATOR_EXPRESSION,
+        FIELD_CALCULATION_EXPRESSION,
         Field(alias="expression"),
     ]
     result: Annotated[
-        FIELD_CALCULATOR_RESULT,
+        FIELD_CALCULATION_RESULT,
         Field(alias="result"),
     ]
 
