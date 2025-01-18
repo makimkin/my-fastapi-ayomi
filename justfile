@@ -1,9 +1,7 @@
-DB := "postgres"  # available options: mongo, postgres
-
 dc := "docker compose"
 
 file_app := "--file docker-compose.app.yaml"
-file_db := "--file docker-compose." + DB + ".yaml"
+file_db := "--file docker-compose." + "${APP_DB:-mongo}" + ".yaml"
 
 container_db_ui := "db-ui"
 container_app := "app"
