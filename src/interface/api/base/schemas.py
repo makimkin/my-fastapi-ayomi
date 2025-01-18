@@ -25,6 +25,10 @@ class BaseHealthCheckResponse(APISchema):
         BaseHealthCheckResponseStatus,
         Field(alias="calculationsCSVBuilder"),
     ]
+    calculation_repository: Annotated[
+        BaseHealthCheckResponseStatus,
+        Field(alias="calculationRepository"),
+    ]
 
 
 # endregion-------------------------------------------------------------------------
