@@ -1,5 +1,5 @@
 # endregion-------------------------------------------------------------------------
-# region BASE CALCULATOR CLASS
+# region REVERSE POLISH NOTATION CALCULATOR
 # ----------------------------------------------------------------------------------
 import logging
 
@@ -11,7 +11,7 @@ logger = logging.getLogger("app")
 
 
 @dataclass
-class CalculatorNPI(CalculatorBase):
+class CalculatorRPN(CalculatorBase):
     async def compute(self, expression: str) -> float:
         return len(expression)
 
