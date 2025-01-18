@@ -6,10 +6,14 @@ from typing import AsyncIterable
 
 from dishka import Scope, Provider, provide
 
+# fmt: off
+from ..calculators.rpn import CalculatorRPN
+from ..calculators.base import CalculatorBase
 from ..authenticator.base import AuthenticatorBase
 from ..authenticator.argon import ArgonAuthenticator
 from ..connection_manager.common.base import ConnectionManagerBase
 from ..connection_manager.fastapi.concurrent import FastAPIConnectionManagerConcurrent
+# fmt: on
 
 
 class ContainerBase(Provider):
@@ -24,6 +28,10 @@ class ContainerBase(Provider):
         yield connection_manager
 
         await connection_manager.close()
+
+    @provide(scope=Scope.APP)
+    def get_calculator(self) -> CalculatorBase:
+        return CalculatorRPN()
 
     @provide(scope=Scope.APP)
     def get_authenticator(self, config: Config) -> AuthenticatorBase:
