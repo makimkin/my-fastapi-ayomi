@@ -10,8 +10,10 @@ from application.calculation.commands import (
     CalculationComputeCommandHandler,
     CalculationComputeCommand,
     #
+    CalculationGenerateCSVCommandHandler,
+    CalculationGenerateCSVCommand,
 )
-from application.calculation.queries.get_many import (
+from application.calculation.queries import (
     CalculationGetManyQueryHandler,
     CalculationGetManyQuery,
     #
@@ -46,10 +48,12 @@ class ContainerBase(Provider):
         self,
         calculator: CalculatorBase,
         calculations_repository: CalculationRepositoryBase,
+        calculations_csv_builder: CalculationsCSVBuilderBase,
     ) -> Dispatcher:
         dispatcher = Dispatcher()
 
         # COMMANDS
+        # COMPUTE
         calculation_compute_command_handler = CalculationComputeCommandHandler(
             calculations_repository=calculations_repository,
             calculator=calculator,
@@ -58,6 +62,19 @@ class ContainerBase(Provider):
         dispatcher.register_command(
             CalculationComputeCommand,
             calculation_compute_command_handler,
+        )
+
+        # GENERATE CSV
+        calculation_generate_csv_command_handler = (
+            CalculationGenerateCSVCommandHandler(
+                calculations_repository=calculations_repository,
+                calculations_csv_builder=calculations_csv_builder,
+            )
+        )
+
+        dispatcher.register_command(
+            CalculationGenerateCSVCommand,
+            calculation_generate_csv_command_handler,
         )
 
         # QUERIES
