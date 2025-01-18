@@ -17,10 +17,10 @@ KEY_RESULT = "result"
 
 @dataclass(eq=False, kw_only=True)
 class CalculatorEntity(EntityBase):
-    id: EntityId = field(
+    calculation_id: EntityId = field(
         default_factory=lambda: EntityId.create(),
         metadata={
-            "optional": True,
+            "optional": False,
             "description": "The unique identifier of the entity.",
         },
     )
@@ -28,7 +28,7 @@ class CalculatorEntity(EntityBase):
     created_at: EntityCreatedAt = field(
         default_factory=lambda: EntityCreatedAt.create(),
         metadata={
-            "optional": True,
+            "optional": False,
             "description": "The date and time the entity was created.",
         },
     )
@@ -50,7 +50,7 @@ class CalculatorEntity(EntityBase):
     def _to_dict(self) -> dict:
         return {
             **super()._to_dict(),
-            KEY_ID: self.id.as_raw(),
+            KEY_ID: self.calculation_id.as_raw(),
             KEY_EXPRESSION: self.expression.as_raw(),
             KEY_CREATED_AT: self.created_at.as_raw(),
             KEY_RESULT: float(self.result.as_raw()) if self.result else None,
@@ -58,7 +58,7 @@ class CalculatorEntity(EntityBase):
 
     @classmethod
     def from_dict(cls, document: dict) -> "CalculatorEntity":
-        id = EntityId(document[KEY_ID])
+        calculation_id = EntityId(document[KEY_ID])
         created_at = EntityCreatedAt(document[KEY_CREATED_AT])
         expression = CalculatorExpression(document[KEY_EXPRESSION])
         result = (
@@ -68,10 +68,10 @@ class CalculatorEntity(EntityBase):
         )
 
         return cls(
-            id=id,
             result=result,
             created_at=created_at,
             expression=expression,
+            calculation_id=calculation_id,
         )
 
 
