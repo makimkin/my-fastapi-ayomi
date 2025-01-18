@@ -46,9 +46,14 @@ def validate_decimal_value_object(
     return value_object
 
 
-def validate_datetime(dt: datetime.datetime | int) -> int:
+def validate_datetime_value_object(
+    dt: ValueObjectBase[datetime.datetime] | datetime.datetime | int,
+) -> int:
     if isinstance(dt, int):
         return dt
+
+    if isinstance(dt, ValueObjectBase):
+        return convert_datetime_to_ms(dt.as_raw())
 
     if isinstance(dt, datetime.datetime):
         return convert_datetime_to_ms(dt)
