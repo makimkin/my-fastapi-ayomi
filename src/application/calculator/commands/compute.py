@@ -4,19 +4,15 @@
 import logging
 
 from dataclasses import dataclass
-from decimal import Decimal
 
 from application.common.command import CommandBase, CommandHandlerBase
+
+from domain.calculator.value_objects import CalculatorExpression, CalculatorResult
+from domain.calculator.entity import CalculatorEntity
 
 from infrastructure.calculators.base import CalculatorBase
 
 logger = logging.getLogger("app")
-
-
-@dataclass(frozen=True)
-class CalculatorComputeCommandDTO:
-    expression: str
-    result: Decimal
 
 
 @dataclass(frozen=True)
@@ -28,7 +24,7 @@ class CalculatorComputeCommand(CommandBase):
 class CalculatorComputeCommandHandler(
     CommandHandlerBase[
         CalculatorComputeCommand,
-        CalculatorComputeCommandDTO,
+        CalculatorEntity,
     ]
 ):
     calculator: CalculatorBase
@@ -36,10 +32,12 @@ class CalculatorComputeCommandHandler(
     async def _handle(
         self,
         command: CalculatorComputeCommand,
-    ) -> CalculatorComputeCommandDTO:
-        return CalculatorComputeCommandDTO(
-            expression=command.expression,
-            result=await self.calculator.compute(command.expression),
+    ) -> CalculatorEntity:
+        result = await self.calculator.compute(command.expression)
+
+        return CalculatorEntity(
+            expression=CalculatorExpression(command.expression),
+            result=CalculatorResult(result),
         )
 
 
