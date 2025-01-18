@@ -10,6 +10,7 @@ from .exception_handlers import (
     response_validation_exception_handler,
 )
 
+from .calculator import calculator_router
 from .base import base_router
 
 from .middlewares import ProcessTimeMiddleware
@@ -44,6 +45,7 @@ def create_app_base() -> FastAPI:
         version="0.1.0",
     )
 
+    router_v1.include_router(calculator_router)
     router_v1.include_router(base_router)
 
     app.include_router(router_v1)
