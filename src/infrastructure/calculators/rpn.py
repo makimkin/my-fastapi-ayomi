@@ -3,11 +3,15 @@
 # ----------------------------------------------------------------------------------
 import logging
 
-from decimal import Decimal, InvalidOperation
 from dataclasses import dataclass
+from decimal import Decimal
 
-from domain.calculator.value_objects import CalculatorExpression
+from domain.calculator.value_objects import CalculatorExpression, CalculatorOperands
+
 from infrastructure.calculators.base import CalculatorBase
+from infrastructure.calculators.exceptions import (
+    CalculatorExpressionInvalidException,
+)
 
 logger = logging.getLogger("app")
 
@@ -15,41 +19,28 @@ logger = logging.getLogger("app")
 @dataclass
 class CalculatorRPN(CalculatorBase):
     OPERANDS = {
-        "-": lambda e1, e2: e1 - e2,
-        "*": lambda e1, e2: e1 * e2,
-        "/": lambda e1, e2: e1 / e2,
-        "+": lambda e1, e2: e1 + e2,
+        CalculatorOperands.SUBTRACT: lambda e1, e2: e1 - e2,
+        CalculatorOperands.MULTIPLY: lambda e1, e2: e1 * e2,
+        CalculatorOperands.DIVIDE: lambda e1, e2: e1 / e2,
+        CalculatorOperands.ADD: lambda e1, e2: e1 + e2,
     }
 
     async def compute(self, expression: CalculatorExpression) -> Decimal:
-        items = expression.as_raw().split(" ")
-
         stack = []
 
-        for i in items:
-            if (number := self._check_if_number(i)) is not None:
-                stack.append(number)
-                continue
-
-            if i in self.OPERANDS:
+        for element in expression.to_list():
+            if element in self.OPERANDS:
                 if len(stack) < 2:
-                    raise ValueError("Invalid expression")
+                    raise CalculatorExpressionInvalidException()
 
-                x2 = stack.pop()
-                x1 = stack.pop()
+                x2, x1 = stack.pop(), stack.pop()
 
-                stack.append(self.OPERANDS[i](x1, x2))
+                stack.append(self.OPERANDS[element](x1, x2))
                 continue
 
-            raise ValueError("Invalid expression")
+            stack.append(element)
 
         return stack.pop()
-
-    def _check_if_number(self, value: str) -> Decimal | None:
-        try:
-            return Decimal(value)
-        except InvalidOperation:
-            return None
 
     async def check_health(self) -> bool:
         expression = CalculatorExpression("1 1 +")
