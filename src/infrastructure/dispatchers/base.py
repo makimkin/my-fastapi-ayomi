@@ -14,9 +14,7 @@ from domain.common.event import EventBase, EventHandlerBase
 
 @dataclass(eq=False, kw_only=True)
 class DispatcherCommand[C: CommandBase, R: Any](ABC):
-    _commands_map: dict[str, list[CommandHandlerBase[C, R]]] = field(
-        default_factory=lambda: defaultdict(list)
-    )
+    _commands_map: dict[str, CommandHandlerBase[C, R]] = field(default_factory=dict)
 
     @abstractmethod
     def register_command(
@@ -24,7 +22,7 @@ class DispatcherCommand[C: CommandBase, R: Any](ABC):
     ): ...
 
     @abstractmethod
-    async def handle_command(self, command: C) -> list[R]: ...
+    async def handle_command(self, command: C) -> R: ...
 
 
 @dataclass(eq=False, kw_only=True)

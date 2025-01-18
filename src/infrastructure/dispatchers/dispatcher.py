@@ -17,6 +17,7 @@ from infrastructure.dispatchers.base import (
     DispatcherQuery,
 )
 from .exceptions import (
+    DispatcherHandlerAlreadyRegistered,
     DispatcherNoCommandHandlerFound,
     DispatcherNoEventHandlerFound,
     DispatcherNoQueryHandlerFound,
@@ -45,17 +46,23 @@ class Dispatcher[C: CommandBase, CR: Any, Q: QueryBase, QR: Any, E: EventBase](
             + "with handler {handler.__class__.__name__}",
         )
 
-        self._commands_map[command.__name__].append(handler)
+        if (h := self._commands_map.get(command.__name__, None)) is not None:
+            raise DispatcherHandlerAlreadyRegistered(
+                command.__name__,
+                h.__class__.__name__,
+            )
 
-    async def handle_command(self, command: C) -> list[CR]:
+        self._commands_map[command.__name__] = handler
+
+    async def handle_command(self, command: C) -> CR:
         logger.info(f"Handling command {command.__class__.__name__}")
 
-        handlers = self._commands_map.get(command.__class__.__name__, None)
+        handler = self._commands_map.get(command.__class__.__name__, None)
 
-        if handlers is None:
+        if handler is None:
             raise DispatcherNoCommandHandlerFound(command.__class__.__name__)
 
-        return [await handler.handle(command) for handler in handlers]
+        return await handler.handle(command)
 
     # endregion---------------------------------------------------------------------
     # region QUERY
