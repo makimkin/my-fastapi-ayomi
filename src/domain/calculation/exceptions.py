@@ -15,4 +15,11 @@ class CalculationExpressionInvalidCharacterException(DomainValueObjectException)
         return f"Invalid character '{self.char}' found in expression"
 
 
+@dataclass(frozen=False)
+class CalculationExpressionEmptyException(DomainValueObjectException):
+    @property
+    def message(self) -> str:
+        return "Expression cannot be empty"
+
+
 # endregion-------------------------------------------------------------------------
