@@ -1,0 +1,39 @@
+---
+name: checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  test:
+    # to deactivate the action put "false"
+    if: ${{ true }}
+    name: test
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04]
+        just: [1.38.0]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USER }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Just
+        uses: extractions/setup-just@v2
+        with:
+          just-version: ${{ matrix.just }}
+
+      - name: Build
+        run: just ci-build
+
+      - name: Test
+        run: just ci-test

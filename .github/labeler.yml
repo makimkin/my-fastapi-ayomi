@@ -1,0 +1,30 @@
+application:
+  - changed-files:
+      - any-glob-to-any-file: "src/application/**"
+
+infrastructure:
+  - changed-files:
+      - any-glob-to-any-file: "src/infrastructure/**"
+
+domain:
+  - changed-files:
+      - any-glob-to-any-file: "src/domain/**"
+
+interface:
+  - changed-files:
+      - any-glob-to-any-file: "src/interface/**"
+
+settings:
+  - changed-files:
+      - any-glob-to-any-file: "src/settings/**"
+
+build:
+  - changed-files:
+      - any-glob-to-any-file:
+          [
+            "Dockerfile",
+            "docker-compose.yml",
+            "justfile",
+            "poetry.lock",
+            "pyproject.toml",
+          ]
