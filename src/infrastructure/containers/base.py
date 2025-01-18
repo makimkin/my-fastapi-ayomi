@@ -1,6 +1,7 @@
 # endregion-------------------------------------------------------------------------
 # region CONTAINER BASE
 # ----------------------------------------------------------------------------------
+
 from settings.config import Config
 
 from dishka import Scope, Provider, provide
@@ -8,6 +9,11 @@ from dishka import Scope, Provider, provide
 from application.calculation.commands import (
     CalculationComputeCommandHandler,
     CalculationComputeCommand,
+    #
+)
+from application.calculation.queries.get_many import (
+    CalculationGetManyQueryHandler,
+    CalculationGetManyQuery,
     #
 )
 
@@ -36,14 +42,24 @@ class ContainerBase(Provider):
         dispatcher = Dispatcher()
 
         # COMMANDS
-        calculator_compute_command_handler = CalculationComputeCommandHandler(
+        calculation_compute_command_handler = CalculationComputeCommandHandler(
             calculations_repository=calculations_repository,
             calculator=calculator,
         )
 
         dispatcher.register_command(
             CalculationComputeCommand,
-            calculator_compute_command_handler,
+            calculation_compute_command_handler,
+        )
+
+        # QUERIES
+        calculation_get_many_query_handler = CalculationGetManyQueryHandler(
+            calculations_repository=calculations_repository,
+        )
+
+        dispatcher.register_query(
+            CalculationGetManyQuery,
+            calculation_get_many_query_handler,
         )
 
         return dispatcher
