@@ -10,5 +10,7 @@ CALCULATOR_TAG = "Calculator"
 class CALCULATOR_ACTIONS(Actions):
     COMPUTE = "/compute"
 
+    READ_MANY = "/"
+
 
 # endregion-------------------------------------------------------------------------

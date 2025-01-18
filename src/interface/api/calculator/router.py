@@ -7,11 +7,16 @@ from fastapi.routing import APIRouter
 from dishka.integrations.fastapi import DishkaRoute, FromDishka
 
 from application.calculation.commands.compute import CalculationComputeCommand
+from application.calculation.queries.get_many import CalculationGetManyQuery
 
 from infrastructure.dispatchers.dispatcher import Dispatcher
 
 from .base import CALCULATOR_PREFIX, CALCULATOR_ACTIONS, CALCULATOR_TAG
-from .schemas import CalculatorComputeRequest, CalculatorComputeResponse
+from .schemas import (
+    CalculatorComputeRequest,
+    CalculatorComputeResponse,
+    CalculatorReadManyResponse,
+)
 
 router = APIRouter(
     prefix=CALCULATOR_PREFIX,
@@ -38,6 +43,25 @@ async def calculator_compute(
     return await dispatcher.handle_command(
         CalculationComputeCommand(expression=request.expression)
     )
+
+
+# endregion-------------------------------------------------------------------------
+# region READ MANY
+# ----------------------------------------------------------------------------------
+@router.get(
+    CALCULATOR_ACTIONS.READ_MANY,
+    status_code=status.HTTP_200_OK,
+    response_model=CalculatorReadManyResponse,
+)
+async def calculator_read_many(
+    dispatcher: FromDishka[Dispatcher],
+):
+    """-----------------------------------------------------------------------------
+    Calculator read many endpoint.
+    -----------------------------------------------------------------------------"""
+    calculations = await dispatcher.handle_query(CalculationGetManyQuery())
+
+    return {"items": calculations}
 
 
 # endregion-------------------------------------------------------------------------
