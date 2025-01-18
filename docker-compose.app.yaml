@@ -21,6 +21,7 @@ services:
 
       - APP_PORT=${APP_PORT:-8000}
       - APP_ENV=${APP_ENV:-development}
+      - APP_DB=${APP_DB:-mongo}
 
       - POSTGRES_DB=${POSTGRES_DB:-dev_db}
       - POSTGRES_USER=${POSTGRES_USER:-dev_user}

@@ -1,4 +1,4 @@
-DB := "mongo"  # available options: mongo, postgres
+DB := "postgres"  # available options: mongo, postgres
 
 dc := "docker compose"
 
