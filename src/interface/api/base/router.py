@@ -9,10 +9,10 @@ from infrastructure.authenticator.base import AuthenticatorBase
 
 from dishka.integrations.fastapi import FromDishka, DishkaRoute
 
-from .base import BASE_PREFIX, BASE_ACTIONS
+from .base import BASE_PREFIX, BASE_TAG, BASE_ACTIONS
 from .schemas import BaseHealthCheckResponse
 
-router = APIRouter(prefix=BASE_PREFIX, route_class=DishkaRoute)
+router = APIRouter(prefix=BASE_PREFIX, route_class=DishkaRoute, tags=[BASE_TAG])
 
 
 @router.get(
