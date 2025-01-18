@@ -11,6 +11,8 @@ from application.calculation.commands import (
     #
 )
 
+from infrastructure.repositories.calculation.base import CalculationRepositoryBase
+
 from ..calculators.rpn import CalculatorRPN
 from ..calculators.base import CalculatorBase
 from ..dispatchers.dispatcher import Dispatcher
@@ -29,11 +31,13 @@ class ContainerBase(Provider):
     def get_dispatcher(
         self,
         calculator: CalculatorBase,
+        calculations_repository: CalculationRepositoryBase,
     ) -> Dispatcher:
         dispatcher = Dispatcher()
 
         # COMMANDS
         calculator_compute_command_handler = CalculationComputeCommandHandler(
+            calculations_repository=calculations_repository,
             calculator=calculator,
         )
 
