@@ -1,7 +1,7 @@
 # endregion-------------------------------------------------------------------------
 # region BASE SCHEMAS
 # ----------------------------------------------------------------------------------
-from typing import Annotated
+from typing import Annotated, Literal
 
 from ..schemas import APISchema
 
@@ -13,7 +13,10 @@ from pydantic import Field
 # ----------------------------------------------------------------------------------
 class BaseHealthCheckResponseStatus(APISchema):
     name: Annotated[str, Field(alias="name")]
-    health: Annotated[bool, Field(alias="health")]
+    health: Annotated[
+        Literal["✅", "❌"],
+        Field(alias="health"),
+    ]
 
 
 class BaseHealthCheckResponse(APISchema):

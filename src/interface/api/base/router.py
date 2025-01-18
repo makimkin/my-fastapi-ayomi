@@ -33,15 +33,19 @@ async def base_health_check(
     return {
         "calculator": {
             "name": calculator.__class__.__name__,
-            "health": await calculator.check_health(),
+            "health": "✅" if await calculator.check_health() else "❌",
         },
         "calculations_csv_builder": {
             "name": calculations_csv_builder.__class__.__name__,
-            "health": True,
+            "health": "✅"
+            if await calculations_csv_builder.check_health()
+            else "❌",
         },
         "calculation_repository": {
             "name": calculations_repository.__class__.__name__,
-            "health": True,
+            "health": "✅"
+            if await calculations_repository.check_health()
+            else "❌",
         },
     }
 
