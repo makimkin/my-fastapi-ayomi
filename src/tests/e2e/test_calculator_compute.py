@@ -5,6 +5,8 @@ import pytest
 
 from fastapi import status
 
+from domain.calculation.exceptions import CalculationExpressionEmptyException
+
 from infrastructure.calculators.exceptions import (
     CalculatorExpressionInvalidException,
     CalculatorDivisionByZeroException,
@@ -107,5 +109,28 @@ async def test_calculator_compute_error_division_by_zero(context: ContextTest):
     calculator_compute_error = ErrorSchema(**calculator_compute_json)
     assert calculator_compute_error.detail.name == CalculatorDivisionByZeroException.__name__, text
     # fmt: on
+
+
+@pytest.mark.asyncio
+async def test_calculator_compute_error_empty_expression(context: ContextTest):
+    """-----------------------------------------------------------------------------
+    Test: 'POST' request to compute an empty expression.
+    -----------------------------------------------------------------------------"""
+    # fmt: off
+    expression = ""
+
+    calculator_compute_request = CalculatorComputeRequest(expression=expression)
+    calculator_compute_response = await context.post(f"/v1{CALCULATOR_PREFIX}{CALCULATOR_ACTIONS.COMPUTE}", json=calculator_compute_request.model_dump())
+    assert calculator_compute_response.status_code == status.HTTP_400_BAD_REQUEST, calculator_compute_response.text
+
+    calculator_compute_json, text = calculator_compute_response.json(), calculator_compute_response.text
+    assert "detail" in calculator_compute_json, text
+    assert "name" in calculator_compute_json["detail"], text
+    assert "error" in calculator_compute_json["detail"], text
+
+    calculator_compute_error = ErrorSchema(**calculator_compute_json)
+    assert calculator_compute_error.detail.name == CalculationExpressionEmptyException.__name__, text
+    # fmt: on
+
 
 # endregion-------------------------------------------------------------------------

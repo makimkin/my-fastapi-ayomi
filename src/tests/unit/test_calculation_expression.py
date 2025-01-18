@@ -4,6 +4,7 @@
 import pytest
 
 from domain.calculation.exceptions import (
+    CalculationExpressionEmptyException,
     CalculationExpressionInvalidCharacterException,
 )
 from domain.calculation.value_objects import CalculationExpression
@@ -113,6 +114,23 @@ async def test_calculation_expression_error_invalid() -> None:
 
     with pytest.raises(CalculationExpressionInvalidCharacterException):
         CalculationExpression("3 4 5 6 + + d")
+    # fmt: on
+
+
+@pytest.mark.asyncio
+async def test_calculator_rpn_success_empty_expression() -> None:
+    """-----------------------------------------------------------------------------
+    Test calculation expression empty.
+    -----------------------------------------------------------------------------"""
+    # fmt: off
+    with pytest.raises(CalculationExpressionEmptyException):
+        CalculationExpression("")
+
+    with pytest.raises(CalculationExpressionEmptyException):
+        CalculationExpression(" ")
+
+    with pytest.raises(CalculationExpressionEmptyException):
+        CalculationExpression("  ")
     # fmt: on
 
 

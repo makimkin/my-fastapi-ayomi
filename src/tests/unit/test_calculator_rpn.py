@@ -10,7 +10,7 @@ from infrastructure.calculators.rpn import CalculatorRPN
 
 
 @pytest.mark.asyncio
-async def test_calculator_rpn_plus_operation() -> None:
+async def test_calculator_rpn_success_plus_operation() -> None:
     """-----------------------------------------------------------------------------
     Test simple operations.
     -----------------------------------------------------------------------------"""
@@ -35,7 +35,7 @@ async def test_calculator_rpn_plus_operation() -> None:
 
 
 @pytest.mark.asyncio
-async def test_calculator_rpn_substract_operation() -> None:
+async def test_calculator_rpn_success_substract_operation() -> None:
     """-----------------------------------------------------------------------------
     Test simple operations.
     -----------------------------------------------------------------------------"""
@@ -60,7 +60,7 @@ async def test_calculator_rpn_substract_operation() -> None:
 
 
 @pytest.mark.asyncio
-async def test_calculator_rpn_multiply_operation() -> None:
+async def test_calculator_rpn_success_multiply_operation() -> None:
     """-----------------------------------------------------------------------------
     Test simple operations.
     -----------------------------------------------------------------------------"""
@@ -85,7 +85,7 @@ async def test_calculator_rpn_multiply_operation() -> None:
 
 
 @pytest.mark.asyncio
-async def test_calculator_rpn_divide_operation() -> None:
+async def test_calculator_rpn_success_divide_operation() -> None:
     """-----------------------------------------------------------------------------
     Test simple operations.
     -----------------------------------------------------------------------------"""
@@ -107,8 +107,6 @@ async def test_calculator_rpn_divide_operation() -> None:
     expression_5 = CalculationExpression("8 4 2 / / 2 / 2 / 2 /")
     assert await calculator_rpn.compute(expression_5) == 0.5
     # fmt: on
-
-
 
 
 @pytest.mark.asyncio
