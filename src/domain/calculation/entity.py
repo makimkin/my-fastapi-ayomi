@@ -4,15 +4,18 @@
 from dataclasses import dataclass, field
 from decimal import Decimal
 
-from domain.calculation.value_objects import CalculationExpression, CalculationResult
+from domain.calculation.value_objects import (
+    CalculationExpression,
+    CalculationResult,
+)
 from domain.common.value_object import EntityCreatedAt, EntityId
 
 from ..common.entity import EntityBase
 
 KEY_ID = "id"
+KEY_RESULT = "result"
 KEY_CREATED_AT = "created_at"
 KEY_EXPRESSION = "expression"
-KEY_RESULT = "result"
 
 
 @dataclass(eq=False, kw_only=True)
