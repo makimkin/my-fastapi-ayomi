@@ -43,9 +43,9 @@ pre-commit install
 
 ---
 
-## Usage
+# STARTING
 
-#### Running | Docker & MongoDB
+#### Docker & MongoDB
 
 Build and run the application in detached mode using Docker:
 
@@ -53,7 +53,7 @@ Build and run the application in detached mode using Docker:
 APP_DB=mongo && just up [-d]
 ```
 
-#### Running | Docker & PostgreSQL
+#### Docker & PostgreSQL
 
 Build and run the application [in detached mode] using Docker, and perform database migrations:
 
@@ -62,9 +62,17 @@ APP_DB=postgres && just up [-d]
 just app-migration-up
 ```
 
----
 
-### Shutting Down the Application
+# TESTING
+
+Run the tests [with optional output] and [exit on the first failure]:
+
+```bash
+export APP_DB=mongo
+just test [-s] [--sw]
+```
+
+# SHUTTING DOWN
 
 To shut down the application [and optionally remove its volumes]:
 
@@ -72,13 +80,44 @@ To shut down the application [and optionally remove its volumes]:
 just down [-v]
 ```
 
----
+# USAGE
 
-## Testing
+## Documentation
+After the launch of the application, you can connect on [SWAGGER](http://localhost:8000/docs) or [REDOC](http://localhost:8000/redoc) to see available endpoints.
 
-Run the tests [with optional output] and [exit on the first failure]:
+## Examples
+
+### Compute
+
+For calculating an operation: "(4 - 5) / 3 * 2 + 1" which will be written in RPN notation as "1 2 3 4 5 + * / -" execute the following script :
 
 ```bash
-export APP_DB=mongo
-just test [-s] [--sw]
+curl -X 'POST' \
+  'http://localhost:8000/v1/calculator/compute' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "expression": "1 2 3 4 5 + * / -"
+}'
+```
+
+### Read many
+
+For reading previous inputs in JSON format.
+
+```bash
+curl -X 'GET' \
+  'http://localhost:8000/v1/calculator/' \
+  -H 'accept: application/json'
+```
+
+
+### Generate CSV
+
+For generation of a CSV containing all previous inputs:
+
+```bash
+curl -X 'GET' \
+  'http://localhost:8000/v1/calculator/csv' \
+  -H 'accept: application/json'
 ```
