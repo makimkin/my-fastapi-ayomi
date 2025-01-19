@@ -135,6 +135,8 @@ my-fastapi-ayomi/
 │   │   └── <couche d'infrastructure>
 │   ├── settings/
 │   │   └── <le config global du projet>
+│   ├── tests/
+│   │   └── <les tests sont contenus ici>
 │   └── lib/
 │       └── <fonctions utilitaires>
 ├── .env.sample                 # Exemple de fichier d'environnement
