@@ -52,6 +52,12 @@ pre-commit install
 
 # STARTING
 
+#### Environment
+
+```bash
+cp .env.sample .env
+```
+
 #### Docker & MongoDB
 
 Build and run the application in detached mode using Docker:
