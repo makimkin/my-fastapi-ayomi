@@ -3,7 +3,7 @@
 # ----------------------------------------------------------------------------------
 from dataclasses import dataclass
 
-from application.common.query import QueryBase, QueryHandlerBase
+from application.common.query import QueryPagingBase, QueryHandlerBase
 
 from domain.calculation.entity import CalculationEntity
 
@@ -11,7 +11,7 @@ from infrastructure.repositories.calculation.base import CalculationRepositoryBa
 
 
 @dataclass(frozen=True)
-class CalculationGetManyQuery(QueryBase):
+class CalculationGetManyQuery(QueryPagingBase):
     pass
 
 
@@ -21,8 +21,13 @@ class CalculationGetManyQueryHandler(
 ):
     calculations_repository: CalculationRepositoryBase
 
-    async def _handle(self, _: CalculationGetManyQuery) -> list[CalculationEntity]:
-        return await self.calculations_repository.get_many()
+    async def _handle(
+        self, query: CalculationGetManyQuery
+    ) -> list[CalculationEntity]:
+        return await self.calculations_repository.get_many(
+            offset=query.offset,
+            limit=query.limit,
+        )
 
 
 # endregion-------------------------------------------------------------------------

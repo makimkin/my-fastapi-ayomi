@@ -4,13 +4,19 @@
 import logging
 
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 logger = logging.getLogger("app")
 
 
 @dataclass(frozen=True)
 class QueryBase(ABC): ...  # noqa: B024
+
+
+@dataclass(frozen=True)
+class QueryPagingBase(QueryBase):
+    limit: int | None = field(default=None)
+    offset: int = field(default=0)
 
 
 @dataclass(frozen=True)
