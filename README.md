@@ -15,8 +15,6 @@ This project involves the design, implementation, and deployment of a calculator
 - [x] Provide an API route to export calculations and results as a CSV file.
 - [x] Deploy the complete system using Docker and Docker Compose for portability and scalability.
 
----
-
 ## Installation
 
 ### For Usage Only
@@ -40,8 +38,6 @@ rm -rf ./.git/hooks
 git clone git@github.com:makimkin/hooks.git ./.git/hooks
 pre-commit install
 ```
-
----
 
 # STARTING
 
@@ -68,7 +64,6 @@ just app-migration-up
 Run the tests [with optional output] and [exit on the first failure]:
 
 ```bash
-export APP_DB=mongo
 just test [-s] [--sw]
 ```
 
@@ -120,4 +115,38 @@ For generation of a CSV containing all previous inputs:
 curl -X 'GET' \
   'http://localhost:8000/v1/calculator/csv' \
   -H 'accept: application/json'
+```
+
+# STRUCTURE
+
+```
+my-fastapi-ayomi/
+├── .github/
+│   └── workflows/
+│       └── <workflows GitHub Actions>
+├── src/
+│   ├── application
+│   │   └── <couche applicative du projet>
+│   ├── domain/
+│   │   └── <couche "domain" du projet>
+│   ├── interface/
+│   │   └── <couche d'interface>
+│   ├── infrastructure/
+│   │   └── <couche d'infrastructure>
+│   ├── settings/
+│   │   └── <le config global du projet>
+│   └── lib/
+│       └── <fonctions utilitaires>
+├── .env.sample                 # Exemple de fichier d'environnement
+├── .gitignore                  # Fichiers et dossiers à ignorer par Git
+├── .pre-commit-config.yaml     # Configuration des hooks Pre-Commit
+├── Dockerfile                  # Image Docker de l'application
+├── PLAN.md                     # Plan détaillé du projet
+├── README.md                   # Documentation principale du projet
+├── docker-compose.app.yaml     # Configuration Docker Compose pour l'application
+├── docker-compose.mongo.yaml   # Configuration Docker Compose pour MongoDB
+├── docker-compose.postgres.yaml# Configuration Docker Compose pour PostgreSQL
+├── justfile                    # Automatisation des tâches
+├── poetry.lock                 # Verrouillage des dépendances Poetry
+└── pyproject.toml              # Configuration et dépendances Python
 ```
