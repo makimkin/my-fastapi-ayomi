@@ -37,6 +37,10 @@ class CalculatorComputeResponse(APISchema):
 # endregion-------------------------------------------------------------------------
 # region READ MANY
 # ----------------------------------------------------------------------------------
+class CalculatorReadManyParams(APISchema):
+    pass
+
+
 class CalculatorReadManyResponseItem(APISchema):
     calculation_id: Annotated[
         FIELD_ENTITY_ID,
@@ -56,7 +60,7 @@ class CalculatorReadManyResponseItem(APISchema):
     ]
 
 
-class CalculatorReadManyResponse(APISchema):
+class CalculatorReadManyResponse(CalculatorReadManyParams):
     items: list[CalculatorReadManyResponseItem]
 
 

@@ -6,7 +6,9 @@ import io
 
 from fastapi.responses import StreamingResponse
 from fastapi.routing import APIRouter
-from fastapi import status
+from fastapi import Query, status
+
+from typing import Annotated
 
 from dishka.integrations.fastapi import DishkaRoute, FromDishka
 
@@ -22,6 +24,8 @@ from .base import CALCULATOR_PREFIX, CALCULATOR_ACTIONS, CALCULATOR_TAG
 from .schemas import (
     CalculatorComputeRequest,
     CalculatorComputeResponse,
+    #
+    CalculatorReadManyParams,
     CalculatorReadManyResponse,
 )
 
@@ -62,13 +66,17 @@ async def calculator_compute(
 )
 async def calculator_read_many(
     dispatcher: FromDishka[Dispatcher],
+    params: Annotated[CalculatorReadManyParams, Query()],
 ):
     """-----------------------------------------------------------------------------
     Calculator read many endpoint.
     -----------------------------------------------------------------------------"""
     calculations = await dispatcher.handle_query(CalculationGetManyQuery())
 
-    return {"items": calculations}
+    return {
+        **params.model_dump(),
+        "items": calculations,
+    }
 
 
 # endregion-------------------------------------------------------------------------
