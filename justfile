@@ -36,6 +36,9 @@ app-restart +args="":
 app-logs +args="":
   {{command}} logs {{container_app}} {{args}}
 
+app-connect +args="":
+  {{command}} exec {{container_app}} bash
+
 app-migration-gen:
   {{command}} exec {{container_app}} alembic revision --autogenerate
 
