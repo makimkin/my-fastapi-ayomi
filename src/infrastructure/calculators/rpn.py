@@ -13,6 +13,7 @@ from domain.calculation.value_objects import (
 
 from infrastructure.calculators.base import CalculatorBase
 from infrastructure.calculators.exceptions import (
+    CalculatorOperandHandlerUnfoundException,
     CalculatorExpressionInvalidException,
     CalculatorDivisionByZeroException,
 )
@@ -33,19 +34,24 @@ class CalculatorRPN(CalculatorBase):
         stack = []
 
         for element in expression.to_list():
-            if element in self.OPERANDS:
-                if len(stack) < 2:
-                    raise CalculatorExpressionInvalidException()
-
-                x2, x1 = stack.pop(), stack.pop()
-
-                if x2 == 0 and element == CalculationOperands.DIVIDE:
-                    raise CalculatorDivisionByZeroException(expression.as_raw())
-
-                stack.append(self.OPERANDS[element](x1, x2))
+            if isinstance(element, Decimal):
+                stack.append(element)
                 continue
 
-            stack.append(element)
+            if len(stack) < 2:
+                raise CalculatorExpressionInvalidException()
+
+            x2, x1 = stack.pop(), stack.pop()
+
+            if x2 == 0 and element == CalculationOperands.DIVIDE:
+                raise CalculatorDivisionByZeroException(expression.as_raw())
+
+            try:
+                operand = self.OPERANDS[element]
+            except KeyError as e:
+                raise CalculatorOperandHandlerUnfoundException(element.value) from e
+
+            stack.append(operand(x1, x2))
 
         return stack.pop()
 

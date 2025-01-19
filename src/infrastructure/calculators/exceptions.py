@@ -22,4 +22,13 @@ class CalculatorDivisionByZeroException(DomainExceptionBase):
         return f"Calculator division by zero: {self.expression}"
 
 
+@dataclass(frozen=False)
+class CalculatorOperandHandlerUnfoundException(DomainExceptionBase):
+    operand: str
+
+    @property
+    def message(self) -> str:
+        return f"Calculator operand handler unfound: {self.operand}"
+
+
 # endregion-------------------------------------------------------------------------
