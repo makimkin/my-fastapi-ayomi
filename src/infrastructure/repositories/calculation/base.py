@@ -19,7 +19,11 @@ class CalculationRepositoryBase(RepositoryBase, ABC):
         ...
 
     @abstractmethod
-    async def get_many(self) -> list[CalculationEntity]:
+    async def get_many(
+        self,
+        limit: int | None = None,
+        offset: int = 0,
+    ) -> list[CalculationEntity]:
         """-------------------------------------------------------------------------
         Get all calculations.
         -------------------------------------------------------------------------"""

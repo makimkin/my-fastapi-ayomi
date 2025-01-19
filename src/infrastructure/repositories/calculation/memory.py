@@ -21,11 +21,15 @@ class CalculationRepositoryMemory(
         -------------------------------------------------------------------------"""
         self._saved.append(calculation)
 
-    async def get_many(self) -> list[CalculationEntity]:
+    async def get_many(
+        self,
+        limit: int | None = None,
+        offset: int = 0,
+    ) -> list[CalculationEntity]:
         """-------------------------------------------------------------------------
         Get all calculations.
         -------------------------------------------------------------------------"""
-        return self.saved
+        return self.saved[offset : offset + limit] if limit else self.saved[offset:]
 
 
 # endregion-------------------------------------------------------------------------

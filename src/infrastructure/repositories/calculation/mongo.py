@@ -23,11 +23,15 @@ class CalculationRepositoryMongo(
 
         await self.collection.insert_one(document)
 
-    async def get_many(self) -> list[CalculationEntity]:
+    async def get_many(
+        self,
+        limit: int | None = None,
+        offset: int = 0,
+    ) -> list[CalculationEntity]:
         """-------------------------------------------------------------------------
         Get all calculators.
         -------------------------------------------------------------------------"""
-        items = await self.collection.find().to_list(length=None)
+        items = await self.collection.find().skip(offset).to_list(length=limit)
 
         return [self.to_domain(document) for document in items]
 

@@ -36,11 +36,15 @@ class CalculationRepositorySQL(
             session.add(model)
             await session.commit()
 
-    async def get_many(self) -> list[CalculationEntity]:
+    async def get_many(
+        self,
+        limit: int | None = None,
+        offset: int = 0,
+    ) -> list[CalculationEntity]:
         """-------------------------------------------------------------------------
         Get all calculations.
         -------------------------------------------------------------------------"""
-        statement = select(CalculationModel)
+        statement = select(CalculationModel).offset(offset).limit(limit)
 
         async with self.session_maker() as session:
             models = await session.scalars(statement)
