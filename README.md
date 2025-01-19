@@ -30,7 +30,18 @@ poetry install
 
 ### For Developers
 
-Initialize the repository and set up pre-commit hooks:
+1. Install [justfile](https://github.com/casey/just)
+
+2. Install environment
+
+```bash
+rm -rf .venv
+python3.13 -m venv .venv
+source .venv/bin/activate
+poetry install
+```
+
+3. Initialize the repository and set up pre-commit hooks:
 
 ```bash
 git init
