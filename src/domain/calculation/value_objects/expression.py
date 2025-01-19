@@ -32,7 +32,7 @@ class CalculationExpression(ValueObjectBase[str]):
             if self._try_to_convert(e) is not None:
                 continue
 
-            if e in ["+", "-", "*", "/"]:
+            if e in CalculationOperands:
                 continue
 
             raise CalculationExpressionInvalidCharacterException(e)
