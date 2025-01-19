@@ -38,7 +38,8 @@ class CalculatorComputeResponse(APISchema):
 # region READ MANY
 # ----------------------------------------------------------------------------------
 class CalculatorReadManyParams(APISchema):
-    pass
+    limit: Annotated[int | None, Field(alias="limit")] = None
+    offset: Annotated[int, Field(alias="offset")] = 0
 
 
 class CalculatorReadManyResponseItem(APISchema):

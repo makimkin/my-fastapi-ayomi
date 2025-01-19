@@ -71,7 +71,12 @@ async def calculator_read_many(
     """-----------------------------------------------------------------------------
     Calculator read many endpoint.
     -----------------------------------------------------------------------------"""
-    calculations = await dispatcher.handle_query(CalculationGetManyQuery())
+    calculations = await dispatcher.handle_query(
+        CalculationGetManyQuery(
+            offset=params.offset,
+            limit=params.limit,
+        )
+    )
 
     return {
         **params.model_dump(),
