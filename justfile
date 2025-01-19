@@ -12,6 +12,9 @@ command := dc + " " + file_app + " " + file_db
 default:
   just --list
 
+build +args="":
+  {{command}} build {{args}}
+
 up +args="":
   {{command}} up --build --remove-orphans {{args}}
 
