@@ -12,7 +12,6 @@ from domain.calculation.value_objects import (
 from domain.common.value_object import EntityCreatedAt, EntityId
 
 from .validators import (
-    validate_int_value_object,
     validate_str_value_object,
     validate_decimal_value_object,
     validate_datetime_value_object,
@@ -28,9 +27,9 @@ FIELD_ENTITY_CREATED_AT = Annotated[
     AfterValidator(validate_datetime_value_object),
 ]
 FIELD_ENTITY_ID = Annotated[
-    EntityId | int,
+    EntityId | str,
     Field(description="The Entity Created At field"),
-    AfterValidator(validate_int_value_object),
+    AfterValidator(validate_str_value_object),
 ]
 
 # endregion-------------------------------------------------------------------------
