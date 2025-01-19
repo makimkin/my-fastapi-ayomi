@@ -29,7 +29,11 @@ class CalculationRepositoryMemory(
         """-------------------------------------------------------------------------
         Get all calculations.
         -------------------------------------------------------------------------"""
-        return self.saved[offset : offset + limit] if limit else self.saved[offset:]
+        return (
+            self.saved[offset : offset + limit]
+            if limit is not None
+            else self.saved[offset:]
+        )
 
 
 # endregion-------------------------------------------------------------------------
