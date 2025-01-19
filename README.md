@@ -46,7 +46,7 @@ pre-commit install
 Build and run the application in detached mode using Docker:
 
 ```bash
-APP_DB=mongo && just up [-d]
+export APP_DB=mongo && just up [-d]
 ```
 
 #### Docker & PostgreSQL
@@ -54,7 +54,7 @@ APP_DB=mongo && just up [-d]
 Build and run the application [in detached mode] using Docker, and perform database migrations:
 
 ```bash
-APP_DB=postgres && just up [-d]
+export APP_DB=postgres && just up [-d]
 just app-migration-up
 ```
 
@@ -84,7 +84,7 @@ After the launch of the application, you can connect on [SWAGGER](http://localho
 
 ### Compute
 
-For calculating an operation: "(4 - 5) / 3 * 2 + 1" which will be written in RPN notation as "1 2 3 4 5 + * / -" execute the following script :
+For calculating an operation: `(4 - 5) / 3 * 2 + 1` which will be written in RPN notation as `1 2 3 4 5 + * / -` execute the following script :
 
 ```bash
 curl -X 'POST' \
