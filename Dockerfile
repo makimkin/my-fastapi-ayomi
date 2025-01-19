@@ -33,22 +33,21 @@ COPY poetry.lock pyproject.toml ./
 RUN python -m pip install --no-cache-dir poetry
 RUN poetry self add poetry-plugin-export
 
-ARG DB_FLAG="--without-hashes"
-
-RUN echo "APP_DB: ${APP_DB}" && \
-    if [ "$APP_DB" = "postgres" ]; then \
-        DB_FLAG="${DB_FLAG} --with=sql"; \
+RUN if [ "$APP_DB" = "postgres" ]; then \
+        DB_FLAG="--without-hashes --with=sql"; \
     elif [ "$APP_DB" = "mongo" ]; then \
-        DB_FLAG="${DB_FLAG} --with=mongo"; \
+        DB_FLAG="--without-hashes --with=mongo"; \
+    else \
+        DB_FLAG="--without-hashes"; \
     fi && \
-    echo "DB_FLAG: ${DB_FLAG}"
-
-RUN echo "APP_ENV: ${APP_ENV}" && \
     if [ "$APP_ENV" = "production" ]; then \
         poetry export -o requirements.txt ${DB_FLAG}; \
     else \
         poetry export -o requirements.txt ${DB_FLAG} --with=dev; \
-    fi
+    fi && \
+    echo "APP_DB: ${APP_DB}" && \
+    echo "DB_FLAG: ${DB_FLAG}" && \
+    echo "APP_ENV: ${APP_ENV}"
 
 # ------------------------------------------------------------------------------
 # BUILD STAGE
